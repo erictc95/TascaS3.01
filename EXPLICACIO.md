@@ -34,3 +34,11 @@ En el método main se crea la implementación concreta (MySqlPersonRepository) y
 🔍 Problema: múltiples responsabilidades → múltiples motivos de cambio
 ✅ Solución: separar en UserValidator y UserConfirmationService
 🎯 Resultado: código más claro, modular y mantenible
+
+## 🧩 EXPLICACIÓ - Open/Closed -> Open/Closed Principle
+
+❌ Antes: uso de condicionales según tipo de instrumento
+❌ Necesidad de modificar la clase para añadir nuevos instrumentos
+✅ Solución: uso de interfaz Instrument
+✅ Aplicación de polimorfismo
+✅ Ahora se pueden añadir nuevos instrumentos sin modificar código existente
