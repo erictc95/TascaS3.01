@@ -30,7 +30,7 @@ En el método main se crea la implementación concreta (MySqlPersonRepository) y
 
 ## 🧩 EXPLICACIÓ - SRP -> Single Responsibility Principle
 
-# ❌ Antes: User hacía demasiadas cosas
-# 🔍 Problema: múltiples responsabilidades → múltiples motivos de cambio
-# ✅ Solución: separar en UserValidator y UserConfirmationService
-# 🎯 Resultado: código más claro, modular y mantenible
+ ❌ Antes: User hacía demasiadas cosas
+🔍 Problema: múltiples responsabilidades → múltiples motivos de cambio
+✅ Solución: separar en UserValidator y UserConfirmationService
+🎯 Resultado: código más claro, modular y mantenible
