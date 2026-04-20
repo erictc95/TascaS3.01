@@ -27,3 +27,10 @@ en lugar de depender de una abstracción, lo que genera un alto acoplamiento y d
 Aunque el sistema utiliza MySQL como base de datos, la clase ServicePerson no debería depender directamente de esta implementación concreta. En su lugar, 
 debería depender de una abstracción que permita cambiar la tecnología de persistencia sin modificar la lógica de negocio.
 En el método main se crea la implementación concreta (MySqlPersonRepository) y se asigna a una variable de tipo PersonRepository. Esta se pasa al constructor de ServicePerson, permitiendo desacoplar la lógica de negocio de la implementación concreta.
+
+## 🧩 EXPLICACIÓ - SRP -> Single Responsibility Principle
+
+❌ Antes: User hacía demasiadas cosas
+🔍 Problema: múltiples responsabilidades → múltiples motivos de cambio
+✅ Solución: separar en UserValidator y UserConfirmationService
+🎯 Resultado: código más claro, modular y mantenible
