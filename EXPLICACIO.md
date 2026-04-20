@@ -1,18 +1,14 @@
 En este archivo vamos a exponer los arreglos, de cada uno de los principios SOLID -> 
 
-## 🧩 EXPLICACIÓ - Dependency Inversion Principle
+## 🧩 EXPLICACIÓ - D -> Dependency Inversion Principle
 
 ### ❌ Què estava malament?
 
 La classe `ServicePerson` depenia directament de la classe concreta `MySqlPersonRepository`, ja que creava la seva instància amb `new`. Això generava un alt acoblament entre la lògica de negoci i la capa de persistència.
 
----
-
 ### ⚠️ Per què incomplia el principi?
 
 Incomplia el principi d’Inversió de Dependències (D), ja que una classe d’alt nivell (`ServicePerson`) depenia d’una classe concreta en lloc d’una abstracció. Això fa que el codi sigui poc flexible i difícil d’extendre, ja que qualsevol canvi en la forma d’emmagatzemar dades obliga a modificar aquesta classe.
-
----
 
 ### ✅ Quina solució has aplicat i per què?
 
@@ -28,9 +24,34 @@ Aunque el sistema utiliza MySQL como base de datos, la clase ServicePerson no de
 debería depender de una abstracción que permita cambiar la tecnología de persistencia sin modificar la lógica de negocio.
 En el método main se crea la implementación concreta (MySqlPersonRepository) y se asigna a una variable de tipo PersonRepository. Esta se pasa al constructor de ServicePerson, permitiendo desacoplar la lógica de negocio de la implementación concreta.
 
-## 🧩 EXPLICACIÓ - SRP -> Single Responsibility Principle
+---
 
-❌ Antes: User hacía demasiadas cosas
+## 🧩 EXPLICACIÓ - S -> Single Responsibility Principle
+
+ ❌ Antes: User hacía demasiadas cosas
 🔍 Problema: múltiples responsabilidades → múltiples motivos de cambio
 ✅ Solución: separar en UserValidator y UserConfirmationService
 🎯 Resultado: código más claro, modular y mantenible
+
+---
+
+## 🧩 EXPLICACIÓ - O -> Open/Closed Principle
+
+❌ Antes: uso de condicionales según tipo de instrumento
+❌ Necesidad de modificar la clase para añadir nuevos instrumentos
+✅ Solución: uso de interfaz Instrument
+✅ Aplicación de polimorfismo
+✅ Ahora se pueden añadir nuevos instrumentos sin modificar código existente
+
+---
+
+## 🧩 EXPLICACIÓ - I -> Interface Segregation Principle
+
+❌ Interfície massa gran amb mètodes innecessaris
+❌ Classes obligades a implementar funcionalitats que no utilitzen
+✅ S’han separat en interfícies més petites
+✅ Cada classe implementa només el que necessita
+✅ S’utilitzen les interfícies en lloc de les classes concretes
+
+---
+
