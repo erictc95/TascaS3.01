@@ -1,57 +1,107 @@
 En este archivo vamos a exponer los arreglos, de cada uno de los principios SOLID -> 
 
-## 🧩 EXPLICACIÓ - D -> Dependency Inversion Principle
+# SOLID Principles – Refactoring Summary
+ 
+---
 
-### ❌ Què estava malament?
+## S — Single Responsibility Principle
 
-La classe `ServicePerson` depenia directament de la classe concreta `MySqlPersonRepository`, ja que creava la seva instància amb `new`. Això generava un alt acoblament entre la lògica de negoci i la capa de persistència.
+### Problem
+A single class handled multiple concerns, including validation and confirmation logic.
 
-### ⚠️ Per què incomplia el principi?
+### Violation
+The class had multiple reasons to change, violating SRP.
 
-Incomplia el principi d’Inversió de Dependències (D), ja que una classe d’alt nivell (`ServicePerson`) depenia d’una classe concreta en lloc d’una abstracció. Això fa que el codi sigui poc flexible i difícil d’extendre, ja que qualsevol canvi en la forma d’emmagatzemar dades obliga a modificar aquesta classe.
+### Solution
+Responsibilities were separated into:
+- `UserValidator`
+- `UserConfirmationService`
 
-### ✅ Quina solució has aplicat i per què?
-
-S’ha creat una interfície `PersonRepository` que defineix el mètode per guardar persones. La classe `MySqlPersonRepository` implementa aquesta interfície.
-
-La classe `ServicePerson` ara rep un objecte de tipus `PersonRepository` mitjançant el constructor (injecció de dependències) i el guarda com a atribut. D’aquesta manera, `ServicePerson` depèn d’una abstracció i no d’una implementació concreta.
-
-Això permet canviar fàcilment la tecnologia de persistència (per exemple, MySQL, MongoDB, etc.) sense modificar la lògica de negoci, fent el codi més flexible, escalable i mantenible.
-
-La clase ServicePerson depende directamente de la implementación concreta MySql, 
-en lugar de depender de una abstracción, lo que genera un alto acoplamiento y dificulta la extensibilidad del sistema.
-Aunque el sistema utiliza MySQL como base de datos, la clase ServicePerson no debería depender directamente de esta implementación concreta. En su lugar, 
-debería depender de una abstracción que permita cambiar la tecnología de persistencia sin modificar la lógica de negocio.
-En el método main se crea la implementación concreta (MySqlPersonRepository) y se asigna a una variable de tipo PersonRepository. Esta se pasa al constructor de ServicePerson, permitiendo desacoplar la lógica de negocio de la implementación concreta.
+### Result
+- Improved cohesion  
+- Clear separation of concerns  
+- Easier maintenance and evolution  
 
 ---
 
-## 🧩 EXPLICACIÓ - S -> Single Responsibility Principle
+## O — Open/Closed Principle
 
- ❌ Antes: User hacía demasiadas cosas
-🔍 Problema: múltiples responsabilidades → múltiples motivos de cambio
-✅ Solución: separar en UserValidator y UserConfirmationService
-🎯 Resultado: código más claro, modular y mantenible
+### Problem
+Behavior depended on conditional logic (`if/else`) based on instrument type.
 
----
+### Violation
+Adding new functionality required modifying existing code, violating OCP.
 
-## 🧩 EXPLICACIÓ - O -> Open/Closed Principle
+### Solution
+Introduced the `Instrument` interface and leveraged polymorphism.
 
-❌ Antes: uso de condicionales según tipo de instrumento
-❌ Necesidad de modificar la clase para añadir nuevos instrumentos
-✅ Solución: uso de interfaz Instrument
-✅ Aplicación de polimorfismo
-✅ Ahora se pueden añadir nuevos instrumentos sin modificar código existente
+Each instrument encapsulates its own behavior.
 
----
-
-## 🧩 EXPLICACIÓ - I -> Interface Segregation Principle
-
-❌ Interfície massa gran amb mètodes innecessaris
-❌ Classes obligades a implementar funcionalitats que no utilitzen
-✅ S’han separat en interfícies més petites
-✅ Cada classe implementa només el que necessita
-✅ S’utilitzen les interfícies en lloc de les classes concretes
+### Result
+- System is open for extension (new instruments)  
+- Closed for modification (no changes to existing code)  
+- Eliminated conditional logic  
 
 ---
 
+## L — Liskov Substitution Principle
+
+### Problem
+The base class defined behavior that not all subclasses could correctly implement.
+
+Example: `Ghost` could not fulfill `takeDamage()` and threw an exception.
+
+### Violation
+Subclasses altered expected behavior, breaking substitutability and violating LSP.
+
+### Solution
+Behavior was decoupled from the base class:
+- `Character` now represents only shared state
+- Capabilities were extracted into interfaces (`Attack`, `Damage`)
+
+### Result
+- Subclasses adhere to their contracts  
+- No invalid or unsupported operations  
+- Safe substitution of base types without runtime issues
+
+---
+
+## I — Interface Segregation Principle
+
+### Problem
+A single interface exposed multiple unrelated operations, forcing classes to implement unused methods.
+
+### Violation
+Clients depended on methods they did not use, violating ISP.
+
+### Solution
+The interface was decomposed into smaller, role-specific interfaces:
+- `Switchable`
+- `TemperatureControl`
+- `Washable`
+
+### Result
+- Reduced unnecessary dependencies  
+- Improved interface cohesion  
+- Clearer contracts per capability  
+
+---
+
+## D — Dependency Inversion Principle
+
+### Problem
+`ServicePerson` depended directly on the concrete implementation `MySqlPersonRepository`, instantiating it internally. This created tight coupling between the business layer and the persistence layer.
+
+### Violation
+The high-level module (`ServicePerson`) depended on a low-level module instead of an abstraction, violating DIP. This design reduces flexibility and makes the system harder to extend or modify.
+
+### Solution
+An abstraction (`PersonRepository`) was introduced to define the persistence contract. `MySqlPersonRepository` implements this interface.
+
+`ServicePerson` now receives a `PersonRepository` via constructor injection, decoupling business logic from concrete implementations.
+
+### Result
+- Reduced coupling between layers  
+- Improved testability (mocking possible)  
+- Easier substitution of persistence mechanisms (e.g., MySQL → MongoDB)  
+- Better adherence to layered architecture principles
